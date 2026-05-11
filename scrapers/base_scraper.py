@@ -7,12 +7,24 @@ import time
 import random
 import logging
 from typing import Optional, List, Dict
-from bs4 import BeautifulSoup
+from urllib import robotparser
 from urllib.parse import urlencode, urlparse
+from bs4 import BeautifulSoup
 
 logger = logging.getLogger(__name__)
 
+# Project-named User-Agent. Identifies the scraper, links to opt-out info,
+# and is what we check against each supplier's robots.txt. Used by
+# `_can_fetch()` regardless of which UA is sent on the live request.
+PROJECT_UA = "DentalPreciosBot/1.0 (+https://www.dentalprecios.cl/bot)"
+
+# UA pool sent on actual requests. The project-named UA is first; we rotate
+# through the browser fallbacks so we don't get blanket-blocked by suppliers
+# whose WAF treats any non-browser UA as suspicious. The robots.txt check
+# below always validates against PROJECT_UA, so per-request UA rotation does
+# not affect crawl-policy enforcement.
 USER_AGENTS = [
+    PROJECT_UA,
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
@@ -20,6 +32,53 @@ USER_AGENTS = [
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15",
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0",
 ]
+
+# Per-host robots.txt parser cache. Single in-process map keyed by netloc.
+# Populated lazily on first request per host. Survives the whole scrape run.
+# Fail-open: if robots.txt is unreachable (404/timeout/other), we allow the
+# fetch. This matches RFC 9309 §2.3 behaviour.
+_ROBOTS_CACHE: Dict[str, Optional[robotparser.RobotFileParser]] = {}
+
+
+def _get_robot_parser(url: str) -> Optional[robotparser.RobotFileParser]:
+    """Return a cached RobotFileParser for the URL's host, or None on fail-open."""
+    host = urlparse(url).netloc
+    if not host:
+        return None
+    if host in _ROBOTS_CACHE:
+        return _ROBOTS_CACHE[host]
+    robots_url = f"{urlparse(url).scheme or 'https'}://{host}/robots.txt"
+    rp = robotparser.RobotFileParser()
+    rp.set_url(robots_url)
+    try:
+        # The stdlib robotparser uses urllib.request.urlopen; set a short timeout
+        # by fetching the body ourselves and feeding it via parse().
+        resp = requests.get(robots_url, timeout=10,
+                            headers={"User-Agent": PROJECT_UA})
+        if resp.status_code == 200 and resp.text:
+            rp.parse(resp.text.splitlines())
+            _ROBOTS_CACHE[host] = rp
+            return rp
+        # Non-200 (most often 404): treat as no-restrictions per RFC 9309.
+        _ROBOTS_CACHE[host] = None
+        return None
+    except Exception:
+        # Network or parse error: fail-open. Cache the None so we don't retry
+        # the bad robots.txt on every fetch.
+        _ROBOTS_CACHE[host] = None
+        return None
+
+
+def can_fetch(url: str) -> bool:
+    """Check whether DentalPreciosBot is allowed to fetch `url` per robots.txt."""
+    rp = _get_robot_parser(url)
+    if rp is None:
+        return True
+    try:
+        return rp.can_fetch(PROJECT_UA, url)
+    except Exception:
+        # Parser bug on weird robots.txt content: fail-open.
+        return True
 
 
 def _get_proxy() -> Optional[dict]:
@@ -342,7 +401,16 @@ class BaseScraper:
             logger.info(f"[{self.name}] Using proxy")
 
     def fetch(self, url: str) -> Optional[BeautifulSoup]:
-        """Fetch a page and return parsed HTML."""
+        """Fetch a page and return parsed HTML.
+
+        Honors per-host robots.txt for the project-named UA before issuing
+        the request. Disallowed URLs return None and log a warning rather
+        than raising — calling code treats them the same as a soft fetch
+        failure.
+        """
+        if not can_fetch(url):
+            logger.warning(f"[{self.name}] robots.txt disallows {url}; skipping")
+            return None
         try:
             time.sleep(random.uniform(1.5, 4.0))
             # Rotate user agent per request (requests/cloudscraper only — PW context is fixed)

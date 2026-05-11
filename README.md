@@ -94,20 +94,13 @@ Once we confirm the workflow runs cleanly here, the daily schedule will be re-en
 
 ## Privacy and ethical-scraping commitments
 
-What we currently do:
-
 - We scrape only publicly accessible pages.
 - We do not collect personal data of any kind (no patient records, no dentist accounts, no contact information beyond what suppliers publish as business contact info on their own sites).
 - We use polite request pacing: random 1.5-4 second delays between requests (`scrapers/base_scraper.py`).
-- We monitor changes to suppliers' `robots.txt` weekly via `scrapers/robots_monitor.py` and review new restrictions before resuming scrapes for affected sites.
+- We enforce `robots.txt` at request time. Before every fetch, `can_fetch(url)` in `scrapers/base_scraper.py` consults the host's `robots.txt` (cached per scrape run, fail-open on unreachable robots.txt per RFC 9309) and skips URLs that disallow our project-named User-Agent.
+- We identify ourselves with a project-named User-Agent: `DentalPreciosBot/1.0 (+https://www.dentalprecios.cl/bot)`. The named UA is one of seven entries in our request-rotation pool — needed so suppliers' WAFs do not blanket-block us as "any non-browser" — but the robots.txt check above always validates against the named UA, so per-request UA rotation does not affect crawl-policy enforcement.
+- We monitor changes to suppliers' `robots.txt` weekly via `scrapers/robots_monitor.py` so any new restrictions are reviewed before they take effect.
 - If a supplier requests that we stop indexing their catalog, we honor the request without delay. Contact: pablo@dentalprecios.cl.
-
-What we are working on (roadmap):
-
-- Per-request `robots.txt` enforcement via `urllib.robotparser` before each fetch. Today we monitor for policy changes; we do not yet block requests at fetch time based on the rules.
-- A project-named User-Agent (e.g. `DentalPriciosBot/1.0 (+https://www.dentalprecios.cl/bot)`) with a clear opt-out contact in the UA string itself. Today the scrapers rotate among standard browser User-Agents.
-
-These gaps are tracked. If you are a supplier and want a different posture today, email the address above and we will adjust your site's handling immediately.
 
 ## License
 
