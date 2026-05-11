@@ -43,3 +43,7 @@ playwright-browsers/
 /*.xlsx
 /*.pptx
 *Confidential*
+
+# Runtime artifacts that get regenerated; do not commit
+scrapers/dedup_review.csv
+scrapers/*.csv.bak
