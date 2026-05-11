@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+ENV/
+
+# Environment
+.env
+.env.local
+.env.*.local
+*.env
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Scraper runtime artifacts that get regenerated
+scrapers/cache/
+scrapers/output/
+scrapers/*.log
+
+# Playwright browsers (installed in CI)
+playwright-browsers/
+
+# Confidential — never enters this repo (mirrored from private repo policy)
+/*.pdf
+/*.docx
+/*.xlsx
+/*.pptx
+*Confidential*

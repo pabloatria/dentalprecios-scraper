@@ -1,0 +1,56 @@
+# CUTOVER MODE: schedule is disabled while we verify the new public repo
+# is working end-to-end. Re-enable by uncommenting the `schedule:` block
+# below once Pablo has confirmed a manual workflow_dispatch run succeeded.
+name: Weekly Robots.txt Monitor
+
+on:
+  # schedule:
+  # - cron: '23 13 * * 1'  # Every Monday at 9:23 AM Chile time (UTC-4)
+  workflow_dispatch: {}     # Allow manual runs
+
+jobs:
+  check-robots:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Restore previous snapshots
+        uses: actions/cache@v4
+        with:
+          path: scrapers/.robots_snapshots.json
+          key: robots-snapshots-${{ github.run_number }}
+          restore-keys: robots-snapshots-
+
+      - name: Run robots.txt monitor
+        id: monitor
+        working-directory: scrapers
+        run: |
+          set +e
+          python robots_monitor.py > /tmp/robots_report.txt 2>&1
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub issue if changes detected
+        if: steps.monitor.outputs.exit_code == '1'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('/tmp/robots_report.txt', 'utf8');
+            const date = new Date().toISOString().split('T')[0];
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Robots.txt changes detected - ${date}`,
+              body: `## Weekly Robots.txt Monitor Alert\n\nChanges or new concerns were detected in supplier robots.txt files.\n\n\`\`\`\n${report}\n\`\`\`\n\nPlease review and take action if needed.`,
+              labels: ['monitoring']
+            });

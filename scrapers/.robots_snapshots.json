@@ -1,0 +1,209 @@
+{
+  "https://spdental.shop": {
+    "hash": "90a195099cfe5f12",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:39.742645+00:00",
+    "concerns": []
+  },
+  "https://nexodental.cl": {
+    "hash": "5d33f419dc9d80b0",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:40.917929+00:00",
+    "concerns": []
+  },
+  "https://eksadental.cl": {
+    "hash": "79ae56c3b1aca2b2",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:41.098993+00:00",
+    "concerns": []
+  },
+  "https://dentobal.cl": {
+    "hash": "",
+    "status": "http_403",
+    "last_checked": "2026-03-18T15:50:41.239407+00:00",
+    "concerns": []
+  },
+  "https://gexachile.cl": {
+    "hash": "1507decc20a4c7ca",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:41.398914+00:00",
+    "concerns": []
+  },
+  "https://3dental.cl": {
+    "hash": "2e65711a7fa04043",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:42.905169+00:00",
+    "concerns": []
+  },
+  "https://afchilespa.cl": {
+    "hash": "530d32e21a8f9334",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:43.199987+00:00",
+    "concerns": []
+  },
+  "https://parejalecaros.cl": {
+    "hash": "4dd3a934fb303a32",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:43.420820+00:00",
+    "concerns": []
+  },
+  "https://www.bamssupplies.com": {
+    "hash": "fab6dc5664113ee9",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:43.584548+00:00",
+    "concerns": []
+  },
+  "https://dentsolutions.cl": {
+    "hash": "1e9067c01e099abc",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:44.015815+00:00",
+    "concerns": [
+      "High crawl-delay: 60s"
+    ]
+  },
+  "https://www.superdental.cl": {
+    "hash": "",
+    "status": "error: HTTPSConnectionPool(host='www.superdental.cl', port=443): Max retries exceeded w",
+    "last_checked": "2026-03-18T15:50:44.121309+00:00",
+    "concerns": []
+  },
+  "https://expressdent.cl": {
+    "hash": "4964675c5d659af2",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:44.179037+00:00",
+    "concerns": []
+  },
+  "https://siromax.cl": {
+    "hash": "40c619a463a498e5",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:46.553397+00:00",
+    "concerns": []
+  },
+  "https://www.dispolab.cl": {
+    "hash": "c2e4b3e567cc8503",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:46.793355+00:00",
+    "concerns": []
+  },
+  "https://dentalmacaya.cl": {
+    "hash": "0f357823edada736",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:48.732780+00:00",
+    "concerns": []
+  },
+  "https://dipromed.cl": {
+    "hash": "3f0cfaf6fbb78388",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:49.319746+00:00",
+    "concerns": []
+  },
+  "https://naturabel.cl": {
+    "hash": "010c7b0664bf17ca",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:49.467148+00:00",
+    "concerns": []
+  },
+  "https://www.flamamed.cl": {
+    "hash": "618c7e77b702bb87",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:49.868005+00:00",
+    "concerns": []
+  },
+  "https://dentalamerica.cl": {
+    "hash": "e3b0c44298fc1c14",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:50.007889+00:00",
+    "concerns": []
+  },
+  "https://dentalmaxspa.cl": {
+    "hash": "9d02a59b805a31d2",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:51.839366+00:00",
+    "concerns": []
+  },
+  "https://orthomedical.cl": {
+    "hash": "cd62e426b4a767d2",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:51.962927+00:00",
+    "concerns": []
+  },
+  "https://www.tiendadentinet.com": {
+    "hash": "6da11cd801f73bb7",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:52.395247+00:00",
+    "concerns": [
+      "High crawl-delay: 60s"
+    ]
+  },
+  "https://techdent.cl": {
+    "hash": "8c99f5b363b92494",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:53.263054+00:00",
+    "concerns": []
+  },
+  "https://www.orbisdental.cl": {
+    "hash": "c40047f99cd33f54",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:53.442052+00:00",
+    "concerns": []
+  },
+  "https://torregal.cl": {
+    "hash": "7f4d8c2a00d3ee80",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:53.886072+00:00",
+    "concerns": [
+      "High crawl-delay: 60s"
+    ]
+  },
+  "https://clandent.cl": {
+    "hash": "1e20dcac3367c497",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:54.102943+00:00",
+    "concerns": []
+  },
+  "https://www.mayordent.cl": {
+    "hash": "",
+    "status": "http_403",
+    "last_checked": "2026-03-18T15:50:54.313654+00:00",
+    "concerns": []
+  },
+  "https://denteeth.cl": {
+    "hash": "2c7650f623865999",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:55.571714+00:00",
+    "concerns": []
+  },
+  "https://www.dentosmed.cl": {
+    "hash": "e3b0c44298fc1c14",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:56.130180+00:00",
+    "concerns": []
+  },
+  "https://gipfel.cl": {
+    "hash": "ce170df543ca3894",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:58.080430+00:00",
+    "concerns": []
+  },
+  "https://www.biomateriales.cl": {
+    "hash": "0695fc8b0b65f65a",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:58.324010+00:00",
+    "concerns": [
+      "Blanket Disallow: / for all user-agents",
+      "High crawl-delay: 120s"
+    ]
+  },
+  "https://www.biotechchile.cl": {
+    "hash": "bc7331dc6dc6f41b",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:58.651984+00:00",
+    "concerns": []
+  },
+  "https://depodental.cl": {
+    "hash": "f55d696239f17314",
+    "status": "ok",
+    "last_checked": "2026-03-18T15:50:59.193938+00:00",
+    "concerns": []
+  }
+}
