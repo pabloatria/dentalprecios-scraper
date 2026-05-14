@@ -1,16 +1,13 @@
-# CUTOVER MODE: schedule is disabled while we verify the new public repo
-# is working end-to-end. Re-enable by uncommenting the `schedule:` block
-# below once Pablo has confirmed a manual workflow_dispatch run succeeded.
 name: Daily Price Scrape
 
 on:
-  # schedule:
-  # # Runs at 04:00 UTC (01:00 Chile time), then small random delay 0-60min.
-  # # Effective start range: 01:00 - 02:00 Chile time (UTC-3).
-  # # NOTE: GitHub Actions `timeout-minutes` covers the WHOLE job including
-  # # the delay step. A 4h delay + 5h scrape would hit 5h cap → partial
-  # # scrape silently "cancelled". Keep delay + scrape under 6h hard cap.
-  # - cron: '0 4 * * *'
+  schedule:
+  # Runs at 04:00 UTC (01:00 Chile time), then small random delay 0-60min.
+  # Effective start range: 01:00 - 02:00 Chile time (UTC-3).
+  # NOTE: GitHub Actions `timeout-minutes` covers the WHOLE job including
+  # the delay step. A 4h delay + 5h scrape would hit 5h cap → partial
+  # scrape silently "cancelled". Keep delay + scrape under 6h hard cap.
+  - cron: '0 4 * * *'
   workflow_dispatch:
 
 jobs:
